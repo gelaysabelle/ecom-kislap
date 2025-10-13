@@ -4,13 +4,12 @@ services:
     image: mysql:8.0
     container_name: mysql1
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: MySQLPW0rd!123
       MYSQL_DATABASE: ecom
-      MYSQL_USER: mysqluser
-      MYSQL_PASSWORD: password
+
     ports:
-       - "3306:3306"
-       - "33060:33060"
+      - "3306:3306"
+      - "33060:33060"
     volumes:
       - ./db:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -20,9 +19,9 @@ services:
     image: ecommercee:latest
     container_name: ecommerce_1
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/ecom
-      SPRING_DATASOURCE_USERNAME: mysqluser
-      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/ecomdbkislap
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: MySQLPW0rd!123
     ports:
       - "8080:8080"
     depends_on:
