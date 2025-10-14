@@ -19,6 +19,13 @@ import { ContactUsComponent } from './contact-us/contact-us.component';
 
 @NgModule({
   declarations: [
+    // Empty - since all components are standalone
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    // Add all your standalone components here:
     AppComponent,
     HeaderComponent,
     FooterComponent,
@@ -32,11 +39,6 @@ import { ContactUsComponent } from './contact-us/contact-us.component';
     CustomerServiceComponent,
     CompanyHomeComponent,
     ContactUsComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

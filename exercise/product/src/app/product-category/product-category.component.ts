@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Product } from '../model/product';
 import { ProductCategory } from '../model/product-category';
 import { ProductService } from '../service/product.service';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-product-category',
+  standalone: true,
+  imports: [CommonModule, RouterLink],
   templateUrl: './product-category.component.html',
   styleUrls: ['./product-category.component.css']
 })
@@ -141,3 +145,4 @@ export class ProductCategoryComponent implements OnInit  {
       this.productService.getData().subscribe(data => {this.productsCategory = data; });
     }
   }
+
