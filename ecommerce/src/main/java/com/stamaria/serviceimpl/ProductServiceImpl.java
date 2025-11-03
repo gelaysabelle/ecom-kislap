@@ -104,9 +104,8 @@ public class ProductServiceImpl implements ProductService {
         Optional<ProductData> optional = productDataRepository.findById(id);
         if(optional.isPresent()) {
             log.info(" Is present >> ");
-            product = new Product();
-            product.setId(optional.get().getId());
-            product.setName(optional.get().getName());
+            // Return fully mapped product so frontend has price, image, description, etc.
+            product = transformProductData.transform(optional.get());
         }
         else {
             log.info(" Failed >> unable to locate id: " +  Integer.toString(id)  );

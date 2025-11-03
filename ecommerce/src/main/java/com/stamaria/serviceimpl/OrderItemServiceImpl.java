@@ -1,8 +1,10 @@
 package com.stamaria.serviceimpl;
 import com.stamaria.entity.OrderItemData;
+import com.stamaria.entity.ProductData;
 import com.stamaria.enums.OrderItemStatus;
 import com.stamaria.model.OrderItem;
 import com.stamaria.repository.OrderItemDataRepository;
+import com.stamaria.repository.ProductDataRepository;
 import com.stamaria.service.OrderItemService;
 import com.stamaria.util.Transform;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,9 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     @Autowired
     OrderItemDataRepository orderItemDataRepository;
+
+    @Autowired
+    ProductDataRepository productDataRepository;
 
     Transform<OrderItemData, OrderItem> transformOrderItemData = new Transform<>(OrderItem.class);
     Transform<OrderItem, OrderItemData> transformOrderItem = new Transform<>(OrderItemData.class);
@@ -87,7 +92,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Override
     public OrderItem create(OrderItem orderItem) {
         log.info(" add:Input {}", orderItem.toString());
-
+        enrichWithProductFields(orderItem);
         OrderItemData orderItemData = transformOrderItem.transform(orderItem);
         OrderItemData updatedOrderItemData = orderItemDataRepository.save(orderItemData);
         log.info(" add:Input {}", updatedOrderItemData.toString());
@@ -99,12 +104,47 @@ public class OrderItemServiceImpl implements OrderItemService {
     public List <OrderItem> create(List<OrderItem> orderItems) {
         List <OrderItem> retOrderItems = new ArrayList<>();
         for (OrderItem orderItem: orderItems){
+            enrichWithProductFields(orderItem);
             OrderItemData orderItemDatun = transformOrderItem.transform(orderItem);
             OrderItemData orderItemDatum = orderItemDataRepository.save(orderItemDatun);
             OrderItem newOrderItem = transformOrderItemData.transform(orderItemDatum );
             retOrderItems.add(newOrderItem);
         }
         return retOrderItems;
+    }
+
+    private void enrichWithProductFields(OrderItem orderItem) {
+        try {
+            if (orderItem == null) { return; }
+            int productId = orderItem.getProductId();
+            if (productId <= 0) { return; }
+            Optional<ProductData> optional = productDataRepository.findById(productId);
+            if (optional.isEmpty()) { return; }
+            ProductData pd = optional.get();
+            if (orderItem.getProductName() == null || orderItem.getProductName().isEmpty()) {
+                orderItem.setProductName(pd.getName());
+            }
+            if (orderItem.getProductDescription() == null || orderItem.getProductDescription().isEmpty()) {
+                orderItem.setProductDescription(pd.getDescription());
+            }
+            if (orderItem.getProductCategoryName() == null || orderItem.getProductCategoryName().isEmpty()) {
+                orderItem.setProductCategoryName(pd.getCategoryName());
+            }
+            if (orderItem.getProductImageFile() == null || orderItem.getProductImageFile().isEmpty()) {
+                orderItem.setProductImageFile(pd.getImageFile());
+            }
+            if (orderItem.getProductUnitOfMeasure() == null || orderItem.getProductUnitOfMeasure().isEmpty()) {
+                orderItem.setProductUnitOfMeasure(pd.getUnitOfMeasure());
+            }
+            // If frontend didn't send price or sent 0, take it from product
+            if (orderItem.getPrice() == 0.0 && pd.getPrice() != null) {
+                try {
+                    orderItem.setPrice(Double.parseDouble(pd.getPrice()));
+                } catch (NumberFormatException ignore) {}
+            }
+        } catch (Exception ignore) {
+            // best-effort enrichment only
+        }
     }
 
     @Override

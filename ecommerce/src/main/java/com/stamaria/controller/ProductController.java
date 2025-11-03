@@ -20,7 +20,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @RequestMapping("/api/product")
+    @RequestMapping("/api/products")
     public ResponseEntity<?>  getProductCategories()
     {
         HttpHeaders headers = new HttpHeaders();
@@ -39,7 +39,7 @@ public class ProductController {
         return response;
     }
 
-    @PutMapping("/api/product")
+    @PutMapping("/api/products")
     public ResponseEntity<?> add(@RequestBody Product product){
         log.info("Input >> " + product.toString() );
         HttpHeaders headers = new HttpHeaders();
@@ -56,7 +56,7 @@ public class ProductController {
         }
         return response;
     }
-    @PostMapping("/api/product")
+    @PostMapping("/api/products")
     public ResponseEntity<?> update(@RequestBody Product product){
         log.info("Update Input >> product.toString() ");
         HttpHeaders headers = new HttpHeaders();
@@ -73,7 +73,7 @@ public class ProductController {
         return response;
     }
 
-    @GetMapping("api/product/{id}")
+    @GetMapping("/api/products/{id}")
     public ResponseEntity<?> get(@PathVariable final Integer id){
         log.info("Input product id >> " + Integer.toString(id));
         HttpHeaders headers = new HttpHeaders();
@@ -88,7 +88,7 @@ public class ProductController {
         }
         return response;
     }
-    @DeleteMapping("/api/product/{id}")
+    @DeleteMapping("/api/products/{id}")
     public ResponseEntity<?> delete(@PathVariable final Integer id){
         log.info("Input >> " + Integer.toString(id));
         HttpHeaders headers = new HttpHeaders();

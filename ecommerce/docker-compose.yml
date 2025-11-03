@@ -12,14 +12,14 @@ services:
       - "33060:33060"
     volumes:
       - ./db:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ../ecom/ecom:/docker-entrypoint-initdb.d
     networks:
       - ecomnet
   ecommerce1:
     image: ecommercee:latest
     container_name: ecommerce_1
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/ecomdbkislap
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/ecomdbkislap?allowPublicKeyRetrieval=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: MySQLPW0rd!123
     ports:
