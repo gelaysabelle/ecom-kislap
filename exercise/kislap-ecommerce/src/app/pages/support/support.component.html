@@ -1,0 +1,173 @@
+<!-- Page Header -->
+<section class="support-header">
+  <div class="container">
+    <h1 class="page-title">Support Center</h1>
+    <p class="page-description">We're here to help you with any questions about Kislap products</p>
+  </div>
+</section>
+
+<!-- Support Content -->
+<section class="support-content">
+  <div class="container">
+    <div class="support-grid">
+      <!-- Contact Form -->
+      <div class="contact-section">
+        <h2 class="section-title">Get in Touch</h2>
+        <p class="section-description">
+          Have a question or need help? Send us a message and we'll get back to you within 24 hours.
+        </p>
+        
+        <form class="contact-form" (ngSubmit)="onSubmit()">
+          <div class="form-row">
+            <div class="form-field">
+              <label for="name" class="form-label">Full Name *</label>
+              <input 
+                type="text" 
+                id="name" 
+                class="form-input" 
+                [(ngModel)]="contactForm.name" 
+                name="name"
+                required
+              >
+            </div>
+            <div class="form-field">
+              <label for="email" class="form-label">Email Address *</label>
+              <input 
+                type="email" 
+                id="email" 
+                class="form-input" 
+                [(ngModel)]="contactForm.email" 
+                name="email"
+                required
+              >
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="category" class="form-label">Category *</label>
+              <select 
+                id="category" 
+                class="form-select" 
+                [(ngModel)]="contactForm.category" 
+                name="category"
+                required
+              >
+                <option *ngFor="let category of categories" [value]="category.value">
+                  {{ category.label }}
+                </option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="subject" class="form-label">Subject *</label>
+              <input 
+                type="text" 
+                id="subject" 
+                class="form-input" 
+                [(ngModel)]="contactForm.subject" 
+                name="subject"
+                required
+              >
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="message" class="form-label">Message *</label>
+            <textarea 
+              id="message" 
+              class="form-textarea" 
+              [(ngModel)]="contactForm.message" 
+              name="message"
+              rows="6"
+              placeholder="Please describe your question or issue in detail..."
+              required
+            ></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary submit-btn">
+            Send Message
+          </button>
+        </form>
+      </div>
+
+      <!-- Contact Information -->
+      <div class="contact-info-section">
+        <h2 class="section-title">Contact Information</h2>
+        
+        <div class="contact-methods">
+          <div class="contact-method">
+            <div class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="2"/>
+                <path d="M2 6l10 7L22 6" stroke="currentColor" stroke-width="2" fill="none"/>
+              </svg>
+            </div>
+            <div class="contact-details">
+              <h3 class="contact-title">Email Support</h3>
+              <p class="contact-text">{{ contactInfo.email }}</p>
+              <p class="contact-note">We respond within 24 hours</p>
+            </div>
+          </div>
+
+          <div class="contact-method">
+            <div class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.1 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.3 1.77.57 2.61a2 2 0 0 1-.45 2.11L8.1 9.91a16 16 0 0 0 6 6l1.47-1.13a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.61.57A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="2" fill="none"/>
+              </svg>
+            </div>
+            <div class="contact-details">
+              <h3 class="contact-title">Phone Support</h3>
+              <p class="contact-text">{{ contactInfo.phone }}</p>
+              <p class="contact-note">Monday - Friday, 9 AM - 6 PM</p>
+            </div>
+          </div>
+
+          <div class="contact-method">
+            <div class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 22s7-5.5 7-12a7 7 0 1 0-14 0c0 6.5 7 12 7 12z" stroke="currentColor" stroke-width="2" fill="none"/>
+                <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2" fill="none"/>
+              </svg>
+            </div>
+            <div class="contact-details">
+              <h3 class="contact-title">Office Address</h3>
+              <p class="contact-text">{{ contactInfo.address }}</p>
+              <p class="contact-note">Visit us during business hours</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="business-hours">
+          <h3 class="hours-title">Business Hours</h3>
+          <div class="hours-content">
+            <pre class="hours-text">{{ contactInfo.hours }}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="faq-section">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <p class="section-description">
+        Find quick answers to common questions about our products and services.
+      </p>
+      
+      <div class="faq-list">
+        <div class="faq-item" *ngFor="let faq of faqs">
+          <div class="faq-question">
+            <h3 class="question-text">{{ faq.question }}</h3>
+            <button class="faq-toggle" (click)="toggleFaq($event)">
+              <span class="toggle-icon">+</span>
+            </button>
+          </div>
+          <div class="faq-answer">
+            <p class="answer-text">{{ faq.answer }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+  </div>
+</section>

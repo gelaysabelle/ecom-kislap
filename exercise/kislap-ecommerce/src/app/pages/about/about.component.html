@@ -1,0 +1,87 @@
+<!-- Hero Section -->
+<section class="about-hero">
+  <div class="container">
+    <div class="hero-content">
+      <h1 class="hero-title">About Kislap</h1>
+      <p class="hero-subtitle">Celebrating Filipino Beauty Through Hybrid Makeup & Skincare</p>
+    </div>
+  </div>
+</section>
+
+<!-- Story Section -->
+<section class="story">
+  <div class="container">
+    <div class="story-content">
+      <div class="story-text">
+        <h2 class="section-title">Our Story</h2>
+        <p class="story-description">
+          Kislap was born from a simple yet powerful belief: Filipino beauty deserves products 
+          that are specifically designed for our unique skin types, climate, and cultural preferences. 
+          Founded in 2020 by Maria Santos, a beauty enthusiast who struggled to find makeup that 
+          worked perfectly with her Filipino skin.
+        </p>
+        <p class="story-description">
+          After years of mixing different products to achieve the perfect look, Maria realized 
+          there was a gap in the market. Why should Filipinas have to choose between makeup and 
+          skincare? Why not have both in one revolutionary product?
+        </p>
+        <p class="story-description">
+          Today, Kislap is proud to be the first Filipino brand to specialize in hybrid makeup-skincare 
+          products, helping thousands of women achieve their perfect glow while caring for their skin.
+        </p>
+      </div>
+      <div class="story-image">
+        <div class ="image-placeholder">
+        <img src="assets/main_logo.png" alt="Kislap Featured" class="product-img">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Mission Section -->
+<section class="mission">
+  <div class="container">
+    <div class="mission-content">
+      <h2 class="section-title">Our Mission</h2>
+      <p class="mission-text">
+        To empower Filipino women by providing high-quality hybrid makeup and skincare products 
+        that celebrate our natural beauty while addressing our unique skin needs. We believe 
+        that beauty should enhance, not hide, the beautiful features that make us uniquely Filipino.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Values Section -->
+<section class="values">
+  <div class="container">
+    <h2 class="section-title">Our Values</h2>
+    <div class="values-grid">
+      <div class="value-card" *ngFor="let value of values">
+        <div class="value-icon" [innerHTML]="value.icon"></div>
+        <h3 class="value-title">{{ value.title }}</h3>
+        <p class="value-description">{{ value.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+ 
+
+<!-- CTA Section -->
+<section class="about-cta">
+  <div class="container">
+    <div class="cta-content">
+      <h2 class="cta-title">Join the Kislap Family</h2>
+      <p class="cta-description">
+        Discover products that celebrate your Filipino beauty and join thousands of women 
+        who have found their perfect glow with Kislap.
+      </p>
+      <div class="cta-actions">
+        <a routerLink="/products" class="btn btn-primary">Explore Products</a>
+        <a routerLink="/support" class="btn btn-secondary">Contact Us</a>
+      </div>
+    </div>
+  </div>
+</section>

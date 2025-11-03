@@ -1,0 +1,53 @@
+<header class="header">
+  <div class="container">
+    <div class="header-content">
+      <!-- Logo -->
+      <div class="logo">
+        <a routerLink="/" class="logo-link">
+          <span class="logo-text">Kislap</span>
+          <span class="logo-tagline">Beauty & Skincare</span>
+        </a>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="nav" [class.nav-open]="isMenuOpen">
+        <ul class="nav-list">
+          <li class="nav-item" *ngFor="let m of menus">
+            <a [routerLink]="['/', m.routerPath]"
+               routerLinkActive="active"
+               [routerLinkActiveOptions]="{exact: !m.routerPath}"
+               class="nav-link">{{ m.name }}</a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Actions -->
+      <div class="header-actions">
+        <!-- Search -->
+        <div class="search-container">
+          <input type="text" placeholder="Search products..." class="search-input">
+          <button class="search-btn" aria-label="Search">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Cart -->
+        <button class="cart-btn" aria-label="Shopping Cart" (click)="goToCheckout()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.7 15.3C4.3 15.7 4.6 16.5 5.1 16.5H17M17 13V17C17 18.1 16.1 19 15 19H9C7.9 19 7 18.1 7 17V13M17 13H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="cart-count">{{ cartCount }}</span>
+        </button>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-menu-btn" (click)="toggleMenu()" [class.active]="isMenuOpen" aria-label="Toggle Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>

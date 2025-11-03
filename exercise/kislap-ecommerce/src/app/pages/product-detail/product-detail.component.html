@@ -1,0 +1,162 @@
+<!-- Breadcrumb -->
+<section class="breadcrumb">
+  <div class="container">
+    <nav class="breadcrumb-nav">
+      <a routerLink="/" class="breadcrumb-link">Home</a>
+      <span class="breadcrumb-separator">></span>
+      <a routerLink="/products" class="breadcrumb-link">Products</a>
+      <span class="breadcrumb-separator">></span>
+      <span class="breadcrumb-current">{{ product.name }}</span>
+    </nav>
+  </div>
+</section>
+
+<!-- Product Detail -->
+<section class="product-detail">
+  <div class="container">
+    <div class="product-content">
+      <!-- Product Images -->
+      <div class="product-images">
+        <div class="main-image">
+          <img [src]="selectedImage" [alt]="product.name" class="product-main-img">
+        </div>
+        <div class="thumbnail-images">
+          <div 
+            *ngFor="let image of product.images" 
+            class="thumbnail"
+            [class.active]="selectedImage === image"
+            (click)="selectImage(image)"
+          >
+            <img [src]="image" [alt]="product.name" class="thumbnail-img">
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Info -->
+      <div class="product-info">
+        <!-- Badge -->
+        <div class="product-badge" *ngIf="product.badge" [class]="'badge-' + product.badge.toLowerCase().replace(' ', '-')">
+          {{ product.badge }}
+        </div>
+
+        <!-- Category -->
+        <div class="product-category">{{ product.category }}</div>
+
+        <!-- Name -->
+        <h1 class="product-name">{{ product.name }}</h1>
+
+        <!-- Rating -->
+        <div class="product-rating">
+          <div class="stars">
+            <span class="star" *ngFor="let star of [1,2,3,4,5]" [class.filled]="star <= product.rating">★</span>
+          </div>
+          <span class="rating-text">{{ product.rating }} ({{ product.reviews }} reviews)</span>
+        </div>
+
+        <!-- Price -->
+        <div class="product-price">
+          <span class="current-price">₱{{ product.price | number }}</span>
+          <span class="original-price" *ngIf="product.originalPrice">₱{{ product.originalPrice | number }}</span>
+          <span class="discount" *ngIf="product.originalPrice">
+            Save ₱{{ product.originalPrice - product.price | number }}
+          </span>
+        </div>
+
+        <!-- Description -->
+        <p class="product-description">{{ product.description }}</p>
+
+        <!-- Features -->
+        <div class="product-features">
+          <h3 class="features-title">Key Features</h3>
+          <ul class="features-list">
+            <li *ngFor="let feature of product.features" class="feature-item">
+              <span class="feature-icon">✓</span>
+              {{ feature }}
+            </li>
+          </ul>
+        </div>
+
+        <!-- Quantity Selector -->
+        <div class="quantity-selector">
+          <label class="quantity-label">Quantity:</label>
+          <div class="quantity-controls">
+            <button class="quantity-btn" (click)="updateQuantity(-1)">-</button>
+            <span class="quantity-value">{{ selectedQuantity }}</span>
+            <button class="quantity-btn" (click)="updateQuantity(1)">+</button>
+          </div>
+        </div>
+
+        <!-- Stock Status -->
+        <div class="stock-status" [class.out-of-stock]="!product.inStock">
+          {{ product.inStock ? 'In Stock' : 'Out of Stock' }}
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="product-actions">
+          <button 
+            class="btn btn-primary add-to-cart-btn" 
+            [disabled]="!product.inStock"
+            [class.disabled]="!product.inStock"
+            (click)="addToCart()"
+          >
+            {{ product.inStock ? 'Add to Cart' : 'Out of Stock' }}
+          </button>
+          <button 
+            class="btn btn-secondary buy-now-btn"
+            [disabled]="!product.inStock"
+            [class.disabled]="!product.inStock"
+            (click)="buyNow()"
+          >
+            Buy Now
+          </button>
+        </div>
+
+        <!-- Social Share -->
+        <div class="social-share">
+          <span class="share-label">Share:</span>
+          <div class="share-buttons">
+            <button class="share-btn" title="Share on Facebook">📘</button>
+            <button class="share-btn" title="Share on Instagram">📷</button>
+            <button class="share-btn" title="Share on Twitter">🐦</button>
+            <button class="share-btn" title="Copy Link">🔗</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Product Details Tabs -->
+<section class="product-tabs">
+  <div class="container">
+    <div class="tabs-content">
+      <!-- Description Tab -->
+      <div class="tab-section">
+        <h3 class="tab-title">Description</h3>
+        <p class="tab-content">{{ product.longDescription }}</p>
+      </div>
+
+      <!-- Ingredients Tab -->
+      <div class="tab-section">
+        <h3 class="tab-title">Ingredients</h3>
+        <div class="ingredients-grid">
+          <div *ngFor="let ingredient of product.ingredients" class="ingredient-item">
+            {{ ingredient }}
+          </div>
+        </div>
+      </div>
+
+      <!-- How to Use Tab -->
+      <div class="tab-section">
+        <h3 class="tab-title">How to Use</h3>
+        <ol class="how-to-use-list">
+          <li *ngFor="let step of product.howToUse" class="how-to-use-item">
+            {{ step }}
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+ 

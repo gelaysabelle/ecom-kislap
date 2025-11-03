@@ -1,0 +1,134 @@
+<!-- Page Header -->
+<section class="page-header">
+  <div class="container">
+    <h1 class="page-title">Our Products</h1>
+    <p class="page-description">Discover our complete collection of hybrid makeup and skincare products</p>
+  </div>
+</section>
+
+<!-- Filters and Search -->
+<section class="filters">
+  <div class="container">
+    <div class="filters-content">
+      <!-- Search -->
+      <div class="search-section">
+        <div class="search-container">
+          <input 
+            type="text" 
+            placeholder="Search products..." 
+            class="search-input"
+            [(ngModel)]="searchTerm"
+            (input)="onSearchChange(searchTerm)"
+          >
+          <button class="search-btn" aria-label="Search">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Category Filter -->
+      <div class="filter-section">
+        <label class="filter-label">Category:</label>
+        <div class="category-filters">
+          <button 
+            *ngFor="let category of categories" 
+            class="category-btn"
+            [class.active]="selectedCategory === category"
+            (click)="onCategoryChange(category)"
+          >
+            {{ category }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Sort -->
+      <div class="sort-section">
+        <label class="sort-label">Sort by:</label>
+        <select class="sort-select" [(ngModel)]="sortBy" (change)="onSortChange(sortBy)">
+          <option value="name">Name</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+          <option value="rating">Rating</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Products Grid -->
+<section class="products">
+  <div class="container">
+    <div class="products-header">
+      <p class="products-count">{{ filteredProducts.length }} products found</p>
+    </div>
+    
+    <div class="products-grid">
+      <div class="product-card" *ngFor="let product of filteredProducts">
+        <!-- Product Badge -->
+        <div class="product-badge" *ngIf="product.badge" [class]="'badge-' + product.badge.toLowerCase().replace(' ', '-')">
+          {{ product.badge }}
+        </div>
+
+        <!-- Product Image -->
+        <div class="product-image">
+          <img [src]="product.image" [alt]="product.name" class="product-img">
+          <div class="product-overlay">
+            <button class="quick-view-btn" [routerLink]="['/product', product.id]">Quick View</button>
+          </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="product-info">
+          <div class="product-category">{{ product.category }}</div>
+          <h3 class="product-name">{{ product.name }}</h3>
+          <p class="product-description">{{ product.description }}</p>
+          
+          <!-- Rating -->
+          <div class="product-rating">
+            <div class="stars">
+              <span class="star" *ngFor="let star of [1,2,3,4,5]" [class.filled]="star <= product.rating">★</span>
+            </div>
+            <span class="rating-text">{{ product.rating }} ({{ product.reviews }} reviews)</span>
+          </div>
+
+          <!-- Price -->
+          <div class="product-price">
+            <span class="current-price">₱{{ product.price | number }}</span>
+            <span class="original-price" *ngIf="product.originalPrice">₱{{ product.originalPrice | number }}</span>
+          </div>
+
+          <!-- Stock Status -->
+          <div class="stock-status" [class.out-of-stock]="!product.inStock">
+            {{ product.inStock ? 'In Stock' : 'Out of Stock' }}
+          </div>
+
+          <!-- Add to Cart Button -->
+          <button 
+            class="btn btn-primary add-to-cart-btn" 
+            [disabled]="!product.inStock"
+            [class.disabled]="!product.inStock"
+            (click)="addToCart(product)"
+          >
+            {{ product.inStock ? 'Add to Cart' : 'Out of Stock' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- No Products Message -->
+    <div class="no-products" *ngIf="filteredProducts.length === 0">
+      <div class="no-products-content">
+        <div class="no-products-icon">🔍</div>
+        <h3 class="no-products-title">No products found</h3>
+        <p class="no-products-description">
+          Try adjusting your search or filter criteria to find what you're looking for.
+        </p>
+        <button class="btn btn-secondary" (click)="onCategoryChange('All'); searchTerm = ''">
+          Clear Filters
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
