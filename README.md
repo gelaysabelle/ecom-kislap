@@ -5,7 +5,6 @@ A simple e‑commerce demo showcasing a full stack: Angular frontend, Spring Boo
 ## Contents
 - Architecture & Data Flow
 - Prerequisites
-- Setup (Local, no Docker)
 - Database Schema & Seeding
 - Run Backend
 - Run Frontend
@@ -164,11 +163,5 @@ npm start
 
 ---
 
-## Demo Script (5 minutes)
-1) Open Home → featured products show real images from `/assets` (via DB `imageFile`)
-2) Go to Products → browse, filter; click Quick View → detail shows same image/price
-3) Add items (Home/Detail) → header cart count updates
-4) Checkout → totals (VAT + shipping); Place Order → confirm backend writes to DB
-5) Show DB query results in MySQL
 
 
