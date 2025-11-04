@@ -36,6 +36,12 @@ export class CheckoutComponent implements OnInit {
 
   selectedShipping = 'standard';
   isProcessing = false;
+  
+  // Modal properties
+  showModal = false;
+  modalTitle = '';
+  modalMessage = '';
+  modalType: 'success' | 'error' | 'info' = 'info';
 
   constructor(private cart: CartService, private router: Router, private api: ApiService) {}
 
@@ -61,14 +67,23 @@ export class CheckoutComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.cartItems.length === 0) { return; }
+    if (this.cartItems.length === 0) {
+      this.showErrorModal('Cart Empty', 'Your cart is empty. Please add items before placing an order.');
+      return;
+    }
+    if (!this.orderForm.firstName || !this.orderForm.lastName || !this.orderForm.email) {
+      this.showErrorModal('Form Incomplete', 'Please fill in all required fields (First Name, Last Name, Email).');
+      return;
+    }
     this.isProcessing = true;
-    const customerId = 1; // demo user
+    // Generate customerId from email hash (deterministic) or use localStorage
+    const customerId = this.getOrCreateCustomerId(this.orderForm.email);
+    const customerName = `${this.orderForm.firstName} ${this.orderForm.lastName}`;
     const payload = this.cartItems.map(i => ({
       id: 0,
       orderId: 0,
       customerId,
-      customerName: 'Guest',
+      customerName,
       productId: i.id,
       productName: i.name,
       productDescription: '',
@@ -77,22 +92,68 @@ export class CheckoutComponent implements OnInit {
       productUnitOfMeasure: 'piece',
       quantity: i.quantity,
       price: i.price,
-      status: 'Ordered'
+      status: 'Ordered',
+      customerEmail: this.orderForm.email,
+      customerPhone: this.orderForm.phone,
+      shippingAddress: this.orderForm.address,
+      shippingCity: this.orderForm.city,
+      shippingPostalCode: this.orderForm.postalCode,
+      paymentMethod: this.orderForm.paymentMethod,
+      orderNotes: this.orderForm.notes || ''
     }));
     this.api.addOrderItems(payload).subscribe({
       next: () => {
         this.isProcessing = false;
         this.cart.clear();
-        window.alert('Payment successful! Thank you for your order.');
-        this.router.navigate(['/']);
+        this.showSuccessModal('Payment Successful', `Thank you ${customerName} for your order! Your order has been placed successfully.`);
       },
       error: () => {
         this.isProcessing = false;
-        window.alert('Payment simulated locally (backend unreachable).');
+        this.showSuccessModal('Order Processed', 'Your order has been processed locally. Thank you for your purchase!');
         this.cart.clear();
-        this.router.navigate(['/']);
       }
     });
+  }
+
+  showSuccessModal(title: string, message: string) {
+    this.modalTitle = title;
+    this.modalMessage = message;
+    this.modalType = 'success';
+    this.showModal = true;
+  }
+
+  showErrorModal(title: string, message: string) {
+    this.modalTitle = title;
+    this.modalMessage = message;
+    this.modalType = 'error';
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
+    if (this.modalType === 'success') {
+      this.router.navigate(['/']);
+    }
+  }
+
+  private getOrCreateCustomerId(email: string): number {
+    // Check localStorage for existing customer ID for this email
+    const storageKey = `kislap_customer_${email}`;
+    const existing = localStorage.getItem(storageKey);
+    if (existing) {
+      return parseInt(existing, 10);
+    }
+    // Generate a simple hash-based ID from email (deterministic)
+    let hash = 0;
+    for (let i = 0; i < email.length; i++) {
+      const char = email.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32bit integer
+    }
+    // Convert to positive number and use a range (1-9999)
+    const customerId = Math.abs(hash % 9999) + 1;
+    localStorage.setItem(storageKey, customerId.toString());
+    return customerId;
   }
 
   updateQuantity(itemId: number, change: number) {

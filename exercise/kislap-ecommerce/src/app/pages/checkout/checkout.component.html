@@ -292,3 +292,12 @@
     </form>
   </div>
 </section>
+
+<!-- Modal Component -->
+<app-modal
+  [isOpen]="showModal"
+  [title]="modalTitle"
+  [message]="modalMessage"
+  [type]="modalType"
+  (close)="closeModal()">
+</app-modal>

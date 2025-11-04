@@ -19,6 +19,13 @@ public class OrderItem {
     double quantity;
     double price;
     OrderItemStatus status;
+    String customerEmail;
+    String customerPhone;
+    String shippingAddress;
+    String shippingCity;
+    String shippingPostalCode;
+    String paymentMethod;
+    String orderNotes;
     Date created;
     Date lastUpdated;
 }

@@ -15,6 +15,7 @@ import { ProductListComponent } from './pages/product-list/product-list.componen
 import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { SupportComponent } from './pages/support/support.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { SupportComponent } from './pages/support/support.component';
     ProductListComponent,
     ProductDetailComponent,
     CheckoutComponent,
-    SupportComponent
+    SupportComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,

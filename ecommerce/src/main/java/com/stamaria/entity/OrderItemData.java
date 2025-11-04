@@ -28,6 +28,13 @@ public class OrderItemData {
     double quantity;
     double price;
     OrderItemStatus status;
+    String customerEmail;
+    String customerPhone;
+    String shippingAddress;
+    String shippingCity;
+    String shippingPostalCode;
+    String paymentMethod;
+    String orderNotes;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
